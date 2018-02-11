@@ -19,7 +19,7 @@ const MongoStore = mongo(session);
 dotenv.config({ path: ".env.example" });
 
 // Controllers (route handlers)
-import * as homeController from "./controllers/home";
+
 import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
@@ -43,8 +43,8 @@ mongoose.connect(mongoUrl, {useMongoClient: true}).then(
 
 // Express configuration
 app.set("port", process.env.PORT || 3000);
-app.set("views", path.join(__dirname, "../views"));
-app.set("view engine", "pug");
+// app.set("views", path.join(__dirname, "../views"));
+// app.set("view engine", "pug");
 app.use(compression());
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -82,12 +82,12 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));
+// app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));
 
 /**
  * Primary app routes.
  */
-app.get("/", homeController.index);
+
 app.get("/login", userController.getLogin);
 app.post("/login", userController.postLogin);
 app.get("/logout", userController.logout);
@@ -109,7 +109,7 @@ app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userControl
  * API examples routes.
  */
 app.get("/api", apiController.getApi);
-app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
+
 
 /**
  * OAuth authentication routes. (Sign in)
